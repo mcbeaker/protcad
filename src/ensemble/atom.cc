@@ -49,6 +49,7 @@ void atom::atomDefaultValues()
         itsCharge = 0; // starting with neutral charge
        itsSolvationEnergy = 0.0;
 	   itsDielectric = 1.0;
+       itsWaters = 0;
 	   itsMaxDielectric = 80.4;
 	   itsMinDielectric = 2.25;
         itsResType = -1; // 0 means "UNK"
@@ -117,6 +118,7 @@ atom::atom(const pdbAtom& _pdbAtomData)
 	itsChainID = _pdbAtomData.getChainID();
 	itsSolvationEnergy = 0.0;
 	itsDielectric = 1.0;
+    itsWaters = 0;
 	itsMaxDielectric = 80.4;
 	itsMinDielectric = 2.25;
 	
@@ -153,6 +155,7 @@ atom::atom(const PDBAtomRecord& _theRecord, bool _hetflag)
         itsCharge = 0.0;
         itsSolvationEnergy = 0.0;
         itsDielectric = 1.0;
+        itsWaters = 0;
 	   itsMaxDielectric = 80.4;
 	   itsMinDielectric = 2.25;
 	if(hetatmFlag){
@@ -203,6 +206,7 @@ atom::atom(const PDBAtomRecord& _theRecord)
 	itsCharge = 0.0;
 	itsSolvationEnergy = 0.0;
 	itsDielectric = 1.0;
+    itsWaters = 0;
 	itsMaxDielectric = 80.4;
 	itsMinDielectric = 2.25;
 	const char* pTheChainID  = (_theRecord.getChainID()).c_str();
@@ -253,6 +257,7 @@ atom::atom(const atom& _rhs)
         itsAmberUnitedCharge=_rhs.itsAmberUnitedCharge;
         itsSolvationEnergy = 0.0;
         itsDielectric = 1.0;
+        itsWaters = 0;
 	   itsMaxDielectric = 80.4;
 	   itsMinDielectric = 2.25;
 	isSilent = _rhs.isSilent;
@@ -302,6 +307,11 @@ void atom::setSolvationEnergy(double _solvationEnergy)
 void atom::setDielectric(double _dielectric)
 {	
 	itsDielectric = _dielectric;
+}
+
+void atom::setNumberofWaters(double _waters)
+{
+    itsWaters = _waters;
 }
 
 void atom::setMaxDielectric(double _maxDielectric)
@@ -398,12 +408,12 @@ double atom::inCubeWithDist(const atom* _pOtherAtom, double _cutoff)
 	return distance;
 }
 
-double atom::inCubeWithDistSQ(const atom* _pOtherAtom, double _cutoffSquared)
+double atom::inCubeWithDistSQ(const atom* _pOtherAtom, double _cutoff)
 {
 	double distance = 0.0;
-	if (fabs(itsCoords[0] - _pOtherAtom->getX()) > _cutoffSquared) return 999.0;
-	if (fabs(itsCoords[1] - _pOtherAtom->getY()) > _cutoffSquared) return 999.0;
-	if (fabs(itsCoords[2] - _pOtherAtom->getZ()) > _cutoffSquared) return 999.0;
+    if (fabs(itsCoords[0] - _pOtherAtom->getX()) > _cutoff) return 999.0;
+    if (fabs(itsCoords[1] - _pOtherAtom->getY()) > _cutoff) return 999.0;
+    if (fabs(itsCoords[2] - _pOtherAtom->getZ()) > _cutoff) return 999.0;
 	distance = CMath::distanceSquared(itsCoords, _pOtherAtom->getCoords());
 	return distance;
 }

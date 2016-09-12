@@ -89,7 +89,7 @@ public:
 	double distanceSquared(atom* pOtherAtom) const;
 	bool inCutoff (const atom* pOtherAtom, double _cutoffDistance);
 	double inCubeWithDist (const atom* pOtherAtom, double _cutoff);
-	double inCubeWithDistSQ (const atom* pOtherAtom, double _cutoffSquared);
+    double inCubeWithDistSQ (const atom* pOtherAtom, double _cutoff);
 	bool inCube (const atom* pOtherAtom, double _cutoffDistance);
 	bool inCutoffSQ (const atom* pOtherAtom, double _cutoff, double _cutoffSquared);
 	bool inCutoff (const atom& OtherAtom, double _cutoffDistance);
@@ -113,10 +113,12 @@ public:
 	void setAtomicRadius(double _radius);
 	double getSolvationEnergy() {return itsSolvationEnergy;}
 	double getDielectric() {return itsDielectric;}
+    double getNumberofWaters() {return itsWaters;}
 	double getMaxDielectric() {return itsMaxDielectric;}
 	double getMinDielectric() {return itsMinDielectric;}
 	void setSolvationEnergy(double _solvationEnergy);
 	void setDielectric(double _dielectric);
+    void setNumberofWaters(double _waters);
 	void setMaxDielectric(double _maxDielectric);
 	void setMinDielectric(double _minDielectric);
 
@@ -213,6 +215,7 @@ protected:
 	double itsRadius;
 	double itsSolvationEnergy;
 	double itsDielectric;
+    double itsWaters;
 	double itsMaxDielectric;
 	double itsMinDielectric;
 	double itsEpsilon;

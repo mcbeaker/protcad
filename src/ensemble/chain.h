@@ -15,10 +15,6 @@
 class atomIterator;
 #endif
 
-#ifndef LIGAND_H
-#include "ligand.h"
-#endif
-
 #ifndef CHAIN_H
 #define CHAIN_H
 //#warning "chain.h read in"
@@ -116,9 +112,13 @@ public:
 	void listChiDefinitions() const;
 	UInt getNumChis(const UInt _resIndex, const UInt _bpt);
 
+    void setMoved (UInt resIndex, UInt _moved) {itsResidues[resIndex]->setMoved(_moved);}
+    double getSolvationEnergy(const UInt _resIndex) {return itsResidues[_resIndex]->getSolvationEnergy();}
+    double getDielectric(const UInt _resIndex) {return itsResidues[_resIndex]->getDielectric();}
 	UIntVec getActiveResidues() { return itsRepackActivePositionMap;}
 	void setRotamerNotAllowed (const UInt _indexInChain, const UInt aaType, const UInt _bpt, const UInt _rotamer);
 	UIntVec getAllowedRotamers ( const UInt _indexInChain, const UInt  _aaType, const UInt _bpt);
+    vector <UIntVec> getAllowedRotamers ( const UInt _indexInChain, const UInt  _aaType);
 	void setResNotAllowed(const UInt _indexInChain, const UInt _aaType);
 	void setResAllowed(const UInt _indexInChain, const UInt _aaType);
 	UIntVec getResAllowed (const UInt _indexInChain);
@@ -197,8 +197,7 @@ public:
 	double interSoluteEnergy(chain* _other);
 	double getInterEnergy(const UInt _res1, chain* _other, const UInt _res2);
 	double getInterEnergy(const UInt _residue1, const UInt _atom1, chain* _other, const UInt _residue2, const UInt _atom2);
-        
-     double getInterEnergy(ligand* _other);
+
 	double BBEnergy();
 
 	double getSelfEnergy(UInt _residueIndex);

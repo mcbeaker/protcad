@@ -22,11 +22,6 @@
 #include "molecule.h"
 #endif
 
-#ifndef LIGAND_H
-#include "ligand.h"
-#endif
-
-
 class residueTemplate;
 
 #ifndef RESIDUE_H
@@ -238,10 +233,11 @@ public:
 	vector <double> calculateDielectric(residue* _other, UInt _atomIndex);
 	vector <double> calculateDielectric(residue* _other, atom* _atom);
     vector <double> calculateSolvationEnergy(UInt _atomIndex);
+    double getSolvationEnergy();
+    double getDielectric();
 	double getIntraEnergy(const UInt atom1, residue* _other, const UInt atom2);
 	double interEnergy(residue* _other);
 	double interSoluteEnergy(residue* _other);
-     double interEnergy(ligand* _other);
 	double getSelfEnergy(residue* _other);
 	double calculateHCA_O_hBondEnergy(residue* _other);
 	double BBEnergy();
@@ -323,6 +319,8 @@ public:
 	bool getPolarHydorgensOn() const {return polarHydrogensOn;}
 	void setPolarHydrogensOn(const bool _polarHydrogensOn);
 	bool getHasPolarHRotamers() const {return dataBase[itsType].getHasPolarHRotamers(); }
+    void setMoved (UInt _moved);
+    UInt getMoved() const {return moved;}
         
 // ***********************************************************************
 // ***********************************************************************
@@ -337,6 +335,7 @@ public:
     static void setupDataBase(const bool _Hflag, const bool _HPflag);
 	static double getCutoffDistance() {return cutoffDistance; }
 	static void setCutoffDistance( const double _cutoff ) { cutoffDistance = _cutoff; cutoffDistanceSquared = _cutoff*_cutoff; }
+    static void setTemperature( const double _temp ) { temperature = _temp; }
 
 // ***********************************************************************
 // ***********************************************************************
@@ -352,8 +351,9 @@ private:
 	residue* pItsNextRes;
 	residue* pItsPrevRes;
 	bool hydrogensOn;
-        bool polarHydrogensOn;
+    bool polarHydrogensOn;
 	bool isArtificiallyBuilt;
+    UInt moved;
 
 	//variables relating to the rotameric state
 	//or lack thereof....
@@ -371,6 +371,7 @@ private:
 	private:
 	static UInt howMany;
 	static bool dataBaseBuilt;
+    static double temperature;
 	static double cutoffDistance;
 	static double cutoffDistanceSquared;
 };
